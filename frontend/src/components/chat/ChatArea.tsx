@@ -23,7 +23,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
   return (
     <div
       ref={scrollableContainerRef}
-      className="flex-grow bg-white dark:bg-gray-700 p-4 my-4 rounded-md shadow overflow-y-auto h-[calc(100vh-300px)] md:h-[calc(100vh-280px)]"
+        // Removed fixed height, should take space from parent flex container in page.tsx
+        className="flex-grow bg-white dark:bg-gray-700 p-4 my-0 rounded-md shadow overflow-y-auto"
     >
       {messages.length === 0 && (
         <div className="flex justify-center items-center h-full">
@@ -33,13 +34,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
         </div>
       )}
       {messages.map((msg) => {
-        // Adapt VercelAIMessage to ChatMessageInterface
         const adaptedMessage: ChatMessageInterface = {
           id: msg.id,
           text: msg.content,
           sender: msg.role === 'user' ? 'user' : 'character',
-          characterName: msg.role !== 'user' ? 'Chandler (Stub)' : undefined,
-          // avatarUrl can be added if available in msg or from a map
+            characterName: msg.role !== 'user' ? 'Chandler' : undefined,
         };
         return <ChatMessageComponent key={msg.id} message={adaptedMessage} />;
       })}

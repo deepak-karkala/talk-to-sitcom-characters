@@ -1,34 +1,31 @@
 // frontend/src/components/chat/CharacterSelector.tsx
-"use client"; // Required for components with interactivity (useState, onClick)
+"use client";
 
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-// Define a type for a character
 interface Character {
   id: string;
   name: string;
   avatarUrl: string;
 }
 
-// Initial character data (only Chandler for now)
 const characters: Character[] = [
   { id: 'chandler', name: 'Chandler Bing', avatarUrl: '/characters/chandler/avatar.svg' },
-  // Future characters can be added here
 ];
 
 const CharacterSelector = () => {
-  const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>('chandler'); // Default to Chandler
+  const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>('chandler');
 
   return (
-    <div className="bg-gray-200 dark:bg-gray-800 p-4 my-4 rounded-md shadow">
-      <h2 className="text-xl font-semibold mb-3 text-center text-gray-800 dark:text-gray-200">Select a Character</h2>
-      <div className="flex justify-center space-x-4">
+    <div className="bg-gray-200 dark:bg-gray-800 p-2 my-3 rounded-md shadow"> {/* Reduced padding and margin */}
+      <h2 className="text-lg font-semibold mb-2 text-center text-gray-800 dark:text-gray-200">Select a Character</h2> {/* Reduced margin, text size */}
+      <div className="flex justify-center space-x-3"> {/* Reduced space */}
         {characters.map((char) => (
           <div
             key={char.id}
-            className={`p-2 rounded-lg cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-105
-                        ${selectedCharacterId === char.id ? 'ring-2 ring-blue-500 shadow-lg' : 'opacity-70 hover:opacity-100'}`}
+            className={`p-1 rounded-lg cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-105
+                        ${selectedCharacterId === char.id ? 'ring-2 ring-blue-500 shadow-md' : 'opacity-70 hover:opacity-100'}`} // Reduced padding, shadow
             onClick={() => setSelectedCharacterId(char.id)}
             role="button"
             tabIndex={0}
@@ -38,12 +35,12 @@ const CharacterSelector = () => {
             <Image
               src={char.avatarUrl}
               alt={char.name}
-              width={80}
-              height={80}
+              width={60} // Reduced size
+              height={60} // Reduced size
               className="rounded-full"
-              priority // Good for LCP if this is above the fold
+              priority
             />
-            <p className="text-center mt-2 text-sm text-gray-700 dark:text-gray-300">{char.name}</p>
+            <p className="text-center mt-1 text-xs text-gray-700 dark:text-gray-300">{char.name}</p> {/* Reduced margin and text size */}
           </div>
         ))}
       </div>
