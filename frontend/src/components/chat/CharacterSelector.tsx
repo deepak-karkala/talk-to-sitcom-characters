@@ -24,7 +24,7 @@ const CharacterSelector = () => {
         {characters.map((char) => (
           <div
             key={char.id}
-            className={`p-1 rounded-lg cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-105
+            className={`p-1 rounded-lg cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-105 flex flex-col items-center justify-center  // Added flex utilities
                         ${selectedCharacterId === char.id ? 'ring-2 ring-blue-500 shadow-md' : 'opacity-70 hover:opacity-100'}`} // Reduced padding, shadow
             onClick={() => setSelectedCharacterId(char.id)}
             role="button"
