@@ -4,3 +4,6 @@ langchain
 google-generativeai
 python-dotenv
 langsmith
+python-multipart
+langchain-google-genai
+pydantic-settings

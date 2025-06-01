@@ -1,26 +1,49 @@
 // frontend/src/components/chat/ChatArea.tsx
-"use client"; // If we plan to update messages dynamically later, mark as client component
+"use client";
 
-import React from 'react';
-import ChatMessage, { Message } from './ChatMessage';
+import React, { useEffect, useRef } from 'react';
+import ChatMessageComponent, { Message as ChatMessageInterface } from './ChatMessage'; // Renamed to avoid conflict with 'ai' Message type
+import { Message as VercelAIMessage } from 'ai'; // Vercel AI SDK Message type
 
-// Hardcoded messages for initial display
-const initialMessages: Message[] = [
-  { id: '1', text: "Could I BE any more ready to chat?", sender: 'character', characterName: 'Chandler' },
-  { id: '2', text: "Hey Chandler! What's new?", sender: 'user' },
-  { id: '3', text: "Oh, you know... sarcasm, mostly. And this new thing where I talk to people through a computer. It's very... 21st century.", sender: 'character', characterName: 'Chandler' },
-];
+interface ChatAreaProps {
+  messages: VercelAIMessage[]; // Messages from useChat hook
+  // Add other props like isLoading if needed for typing indicator
+}
 
-const ChatArea = () => {
-  // In future steps, messages will come from props or a hook (useChat)
-  const messages = initialMessages;
+const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
+  const scrollableContainerRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to bottom when new messages are added
+  useEffect(() => {
+    if (scrollableContainerRef.current) {
+      scrollableContainerRef.current.scrollTop = scrollableContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
-    <div className="flex-grow bg-white dark:bg-gray-700 p-4 my-4 rounded-md shadow overflow-y-auto h-[calc(100vh-300px)] md:h-[calc(100vh-280px)]">
-      {messages.map((msg) => (
-        <ChatMessage key={msg.id} message={msg} />
-      ))}
-      {/* Typing indicator can be added here later */}
+    <div
+      ref={scrollableContainerRef}
+      className="flex-grow bg-white dark:bg-gray-700 p-4 my-4 rounded-md shadow overflow-y-auto h-[calc(100vh-300px)] md:h-[calc(100vh-280px)]"
+    >
+      {messages.length === 0 && (
+        <div className="flex justify-center items-center h-full">
+          <p className="text-gray-400 dark:text-gray-500">
+            No messages yet. Say hi to Chandler!
+          </p>
+        </div>
+      )}
+      {messages.map((msg) => {
+        // Adapt VercelAIMessage to ChatMessageInterface
+        const adaptedMessage: ChatMessageInterface = {
+          id: msg.id,
+          text: msg.content,
+          sender: msg.role === 'user' ? 'user' : 'character',
+          characterName: msg.role !== 'user' ? 'Chandler (Stub)' : undefined,
+          // avatarUrl can be added if available in msg or from a map
+        };
+        return <ChatMessageComponent key={msg.id} message={adaptedMessage} />;
+      })}
+      {/* Typing indicator can be added here based on isLoading prop */}
     </div>
   );
 };
