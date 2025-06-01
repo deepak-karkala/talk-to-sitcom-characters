@@ -1,6 +1,7 @@
 # backend/app/services/llm_service.py
 import os
-import logging # New import
+import logging
+import asyncio # New import
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
 from langchain.chains import LLMChain
@@ -77,7 +78,8 @@ class LLMService:
             async for chunk in self.chain.astream(input={"user_input_combined": combined_input}):
                 token = chunk.get("text")
                 if token:
-                    # logger.debug(f"Streamed token: {token}") # Can be too verbose
+                    await asyncio.sleep(0.01) # Added small delay for debugging streaming
+                    # logger.debug("Streamed token: %s", token) # Can be too verbose
                     yield token
             logger.info("Streaming response completed.") # Logging
         except Exception as e:
