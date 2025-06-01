@@ -19,7 +19,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   return (
     <div className={`flex mb-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div
-        className={`p-3 rounded-lg max-w-xs md:max-w-md lg:max-w-lg break-words
+            className={`p-3 rounded-lg break-words
+                        max-w-lg md:max-w-xl lg:max-w-2xl // Updated max-width classes
                     ${isUser ? 'bg-blue-500 text-white' : 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-100'}`}
       >
         {!isUser && message.characterName && (

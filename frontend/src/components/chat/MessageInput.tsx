@@ -54,8 +54,10 @@ const MessageInput: React.FC<MessageInputProps> = ({ input, handleInputChange, h
   };
 
   return (
-    // Added shadow-up-md, can be shadow-lg or a custom upward shadow
-    <form onSubmit={onFormSubmit} className="bg-gray-100 dark:bg-gray-800 p-3 md:p-4 rounded-t-md shadow-up-md mt-auto"> {/* Added rounded-t-md and shadow-up-md */}
+        <form
+          onSubmit={onFormSubmit}
+          className="bg-gray-100 dark:bg-gray-800 p-3 md:p-4 rounded-t-md shadow-xl border-t border-gray-200 dark:border-gray-700 mt-auto" // Changed shadow, added border
+        >
       {/* ... rest of the component ... */}
       <div className="flex items-end space-x-2 md:space-x-3">
         <button
