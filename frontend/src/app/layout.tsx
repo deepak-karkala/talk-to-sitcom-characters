@@ -17,7 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-100 dark:bg-gray-900`}>
+      {/* Added 'theme-chandler' class and a base bg color that theme might override */}
+      <body className={`${inter.className} theme-chandler bg-gray-100 dark:bg-gray-900`}>
         {children}
       </body>
     </html>
