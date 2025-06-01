@@ -8,7 +8,8 @@ class Message(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: List[Message]
-    image_context_notes: Optional[str] = None # New field
+    image_context_notes: Optional[str] = None
+    session_id: Optional[str] = None # New field
 
 # ChatResponse is not strictly needed anymore if all chat interactions are streaming
 # but can be kept for non-streaming endpoints or other purposes.
