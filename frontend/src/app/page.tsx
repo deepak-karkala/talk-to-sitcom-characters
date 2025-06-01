@@ -56,18 +56,22 @@ export default function ChatPage() {
   // }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-800">
+    // Main page container - ensure this has a contrasting background
+    // The body tag in layout.tsx already sets bg-gray-100 dark:bg-gray-900.
+    // We can override it here for the specific chat page view if needed, or ensure MessageInput's wrapper is different.
+    <div className="flex flex-col h-screen bg-gray-100 dark:bg-chat-bg-dark"> {/* Updated page background */}
       <Header />
       <CharacterSelector />
-
       <main className="flex-grow container mx-auto px-4 flex flex-col overflow-hidden">
         <ChatArea messages={messages} />
       </main>
 
-      <div className="sticky bottom-0 left-0 right-0 z-10 bg-gray-50 dark:bg-gray-800 container mx-auto px-0 md:px-4">
-        <MessageInput
-          input={input}
-          handleInputChange={handleInputChange}
+      {/* Wrapper for MessageInput - this needs a distinct background for shadow to pop */}
+      <div className="sticky bottom-0 left-0 right-0 z-10 bg-transparent"> {/* Make wrapper transparent */}
+        <div className="container mx-auto px-0 md:px-4"> {/* Inner container for padding */}
+            <MessageInput
+              input={input}
+              handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
           // isLoading={isLoading}
         />
