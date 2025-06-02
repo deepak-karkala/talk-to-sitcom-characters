@@ -7,7 +7,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import ChatMessageHistory # Ensure this is the correct import
 from app.core.config import settings
-from typing import AsyncGenerator, Optional, Dict
+from typing import AsyncGenerator, Optional, Dict 
 
 logger = logging.getLogger(__name__)
 
@@ -30,20 +30,20 @@ class LLMService:
         if not settings.GOOGLE_API_KEY:
             logger.error("GOOGLE_API_KEY not found in environment variables.")
             raise ValueError("GOOGLE_API_KEY not found in environment variables.")
-
+        
         logger.info("Initializing ChatGoogleGenerativeAI with model: %s", "gemini-1.5-flash-latest")
         self.llm = ChatGoogleGenerativeAI(
             model="gemini-1.5-flash-latest",
             api_key=settings.GOOGLE_API_KEY,
             temperature=0.7
         )
-
+        
         self.prompt = ChatPromptTemplate.from_messages([
             SystemMessagePromptTemplate.from_template(SYSTEM_PROMPT),
             MessagesPlaceholder(variable_name="chat_history"),
             HumanMessagePromptTemplate.from_template("{user_input_combined}")
         ])
-
+        
         core_runnable = self.prompt | self.llm | StrOutputParser()
 
         # self.session_histories removed from here
@@ -65,7 +65,7 @@ class LLMService:
             module_level_session_histories[session_id] = ChatMessageHistory()
         else:
             logger.info(f"SESSION_HISTORY ({session_id}): Using existing ChatMessageHistory from module level.")
-
+        
         history_obj = module_level_session_histories[session_id]
         logger.debug(f"SESSION_HISTORY ({session_id}): History retrieved. Message count: {len(history_obj.messages)}")
         return history_obj

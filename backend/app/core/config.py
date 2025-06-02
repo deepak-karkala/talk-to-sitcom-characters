@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Chatterbox Backend"
     # Gemini API Key
     GOOGLE_API_KEY: Optional[str] = None
-
+    
     # LangSmith Configuration
     LANGCHAIN_API_KEY: Optional[str] = None
     LANGCHAIN_TRACING_V2: str = "true"
