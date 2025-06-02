@@ -3,8 +3,9 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <header className="bg-blue-600 dark:bg-blue-800 text-white p-4 shadow-md">
-      <h1 className="text-2xl font-bold">Chatterbox</h1>
+    // Changed to transparent, added bottom border
+    <header className="bg-transparent text-slate-900 dark:text-slate-100 p-4 border-b border-slate-200 dark:border-slate-700">
+      <h1 className="text-2xl font-bold text-center">Chatterbox</h1> {/* Centered title for now */}
     </header>
   );
 };

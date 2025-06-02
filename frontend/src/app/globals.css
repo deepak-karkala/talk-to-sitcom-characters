@@ -25,15 +25,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* frontend/src/app/globals.css - modify existing body.theme-chandler */
+/* frontend/src/app/globals.css - comment out theme-chandler */
+/*
 body.theme-chandler {
-  background-image: url('/characters/chandler/background.svg') !important; /* Path check + !important */
-  background-color: lightpink !important; /* Obvious fallback color for diagnostics */
+  background-image: url('/characters/chandler/background.svg') !important;
+  background-color: lightpink !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
 }
+*/
 
 /* Ensure content is legible over the background, perhaps by adding a semi-transparent overlay to main content areas if needed */
 /* For example, if the main chat components had their own background:
