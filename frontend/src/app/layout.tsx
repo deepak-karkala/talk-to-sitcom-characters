@@ -1,24 +1,17 @@
 // frontend/src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter } from "next/font/google"; // Keep Inter if font is desired, or remove for extreme bareness
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] }); // Assuming Inter font is still okay
 
-export const metadata: Metadata = {
-  title: "Chatterbox",
-  description: "Chat with your favorite characters",
-};
+export const metadata: Metadata = { title: "Chatterbox", description: "Chat with your favorite characters" };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      {/* Changed to slate, commented out theme-chandler */}
-      <body className={`${inter.className} bg-slate-100 dark:bg-slate-900 /* theme-chandler */`}>
+      {/* Force extreme background, remove font class if it interferes (unlikely for bg) */}
+      <body className={`${inter.className} bg-red-500`}>
         {children}
       </body>
     </html>

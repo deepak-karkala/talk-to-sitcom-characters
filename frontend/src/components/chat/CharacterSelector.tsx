@@ -8,9 +8,8 @@ const characters: Character[] = [{ id: 'chandler', name: 'Chandler Bing', avatar
 const CharacterSelector = () => {
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>('chandler');
   return (
-    // Re-applied card styling
-    <div className="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-3 my-3">
-      <h2 className="text-lg font-semibold mb-2 text-center text-slate-700 dark:text-slate-300">Select a Character</h2>
+    <div className="p-3 my-3 border border-black"> {/* Removed bg-, shadow-. Added border. */}
+      <h2 className="text-lg font-semibold mb-2 text-center text-black">Select a Character</h2> {/* text-black */}
       <div className="flex justify-center space-x-3">
         {characters.map((char) => (
           <div
@@ -20,7 +19,7 @@ const CharacterSelector = () => {
             onClick={() => setSelectedCharacterId(char.id)} role="button" tabIndex={0} aria-pressed={selectedCharacterId === char.id} aria-label={`Select ${char.name}`}
           >
             <Image src={char.avatarUrl} alt={char.name} width={60} height={60} className="rounded-full" priority />
-            <p className="text-center mt-1 text-xs text-slate-600 dark:text-slate-400">{char.name}</p>
+            <p className="text-center mt-1 text-xs text-black">{char.name}</p> {/* text-black */}
           </div>
         ))}
       </div>

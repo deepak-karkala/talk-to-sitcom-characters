@@ -25,16 +25,16 @@ const MessageInput: React.FC<MessageInputProps> = ({ input, handleInputChange, h
   return (
     <form
       onSubmit={onFormSubmit}
-      // Re-applied card styling for input bar
-      className="bg-white dark:bg-slate-800 p-3 md:p-4 mt-auto shadow-soft-lift-up rounded-t-lg border-t border-slate-200 dark:border-slate-700"
+      className="p-3 md:p-4 mt-auto border border-black" // Removed bg-, shadow-. Added border.
     >
       <div className="flex items-end space-x-2 md:space-x-3">
-        <button type="button" className="p-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" aria-label="Upload image (disabled)" disabled > <PaperclipIconSvg className="w-5 h-5 md:w-6 md:h-6" /> </button>
+        <button type="button" className="p-2 text-black hover:text-blue-600" aria-label="Upload image (disabled)" disabled > <PaperclipIconSvg className="w-5 h-5 md:w-6 md:h-6" /> </button> {/* text-black */}
         <textarea id="message-input-textarea" value={input} onChange={handleTextareaChange} onKeyDown={handleKeyDown} placeholder="Type your message..."
-          className="flex-grow p-2.5 text-sm md:text-base border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none
-                     bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white dark:placeholder-slate-400"
+          className="flex-grow p-2.5 text-sm md:text-base border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none
+                     bg-white text-black placeholder-gray-500" // Explicit bg-white, text-black for textarea
           rows={1} style={{ overflowY: 'hidden' }} />
-        <button type="submit" disabled={!input.trim()} className="p-2.5 text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors" aria-label="Send message" > <PaperAirplaneIconSvg className="w-5 h-5 md:w-6 md:h-6" /> </button>
+        {/* Send button keeps its blue background for usability in this test */}
+        <button type="submit" disabled={!input.trim()} className="p-2.5 text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50" aria-label="Send message" > <PaperAirplaneIconSvg className="w-5 h-5 md:w-6 md:h-6" /> </button>
       </div>
     </form>
   );
