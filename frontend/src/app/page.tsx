@@ -65,12 +65,10 @@ export default function ChatPage() {
       <main className="flex-grow container mx-auto px-4 flex flex-col overflow-hidden">
         <ChatArea messages={messages} />
       </main>
-
-      {/* Wrapper for MessageInput - this needs a distinct background for shadow to pop */}
-      <div className="sticky bottom-0 left-0 right-0 z-10 bg-transparent"> {/* Make wrapper transparent */}
-        <div className="container mx-auto px-0 md:px-4"> {/* Inner container for padding */}
-            <MessageInput
-              input={input}
+      {/* Wrapper for MessageInput - set to transparent */}
+      <div className="sticky bottom-0 left-0 right-0 z-10 bg-transparent">
+        <div className="container mx-auto px-0 md:px-4">
+            <MessageInput input={input} handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
               handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
           // isLoading={isLoading}
