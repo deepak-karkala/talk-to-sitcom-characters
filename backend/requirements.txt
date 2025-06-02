@@ -7,3 +7,5 @@ langsmith
 python-multipart
 langchain-google-genai
 pydantic-settings
+nemoguardrails[langchain]
+httpx

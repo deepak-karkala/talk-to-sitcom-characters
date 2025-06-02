@@ -1,0 +1,30 @@
+# backend/guardrails_config/config.yml
+models:
+  - type: main
+    engine: langchain
+    # Assuming NeMo server is started from `backend/` directory,
+    # and `guardrails_config` is in PYTHONPATH or NeMo adds it.
+    # Or if NeMo server is started from `backend/guardrails_config/`
+    # then the path would be `llm_setup.langchain_llm_instance`.
+    # This is a critical path to get right.
+    # Let's assume the config dir is added to path, so simple module name.
+    model: "llm_setup.langchain_llm_instance"
+
+rails:
+  input:
+    flows:
+      - block politics
+  dialog:
+    flows:
+      - greeting
+  # Output self-check rails might be too complex for initial setup with Gemini Flash
+  # without specific fine-tuning or if they require a stronger model for self-critique.
+  # Keeping them commented out for now to ensure basic flow works.
+  # output:
+  #   flows:
+  #     - self_check_output 
+
+# This is speculative, based on common patterns.
+# Official documentation should be consulted for enabling streaming if this doesn't work.
+# Some LLM connectors in NeMo might stream by default if the model supports it.
+streaming: True
