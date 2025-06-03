@@ -1,0 +1,6 @@
+# backend/requirements-dev.txt
+pytest
+flake8
+black
+playwright
+# Add other testing/dev dependencies here as needed, e.g., pytest-asyncio
