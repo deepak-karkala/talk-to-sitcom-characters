@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     LANGCHAIN_TRACING_V2: str = "true"
     LANGCHAIN_ENDPOINT: str = "https://api.smith.langchain.com"
     LANGCHAIN_PROJECT: Optional[str] = "Chatterbox-Dev" # Default project name
-        LANGCHAIN_VERBOSE: bool = False # New setting for chain verbosity
+    LANGCHAIN_VERBOSE: bool = False # New setting for chain verbosity
 
     # LLM Service Provider: "GEMINI" or "LLAMA" (for future use)
     LLM_SERVICE_PROVIDER: str = "GEMINI"

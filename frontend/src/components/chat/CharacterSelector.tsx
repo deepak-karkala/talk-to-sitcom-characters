@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 interface Character { id: string; name: string; avatarUrl: string; }
-const characters: Character[] = [{ id: 'chandler', name: 'Chandler Bing', avatarUrl: '/characters/chandler/avatar.svg' }];
+const characters: Character[] = [{ id: 'chandler', name: 'Chandler Bing', avatarUrl: '/characters/chandler/avatar.png' }];
 
 const CharacterSelector = () => {
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>('chandler');
