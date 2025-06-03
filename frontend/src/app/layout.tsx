@@ -10,7 +10,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       {/* Restored intended page background classes */}
-      <body className={`${inter.className} bg-slate-100 dark:bg-slate-900`}> 
+      <body className={`${inter.className} bg-slate-100 dark:bg-slate-900`}>
         {children}
       </body>
     </html>
