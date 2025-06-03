@@ -23,10 +23,9 @@ jobs:
       - name: Setup Node.js for Frontend Linting
         uses: actions/setup-node@v4
         with:
-              node-version: '20'
+          node-version: '20'
           cache: 'npm'
-              # Changed cache-dependency-path to a glob pattern
-              cache-dependency-path: '**/package-lock.json'
+          cache-dependency-path: '**/package-lock.json'
 
       - name: Install Frontend Dependencies & Lint
         working-directory: ./frontend
@@ -36,9 +35,8 @@ jobs:
 
       - name: Setup Python for Backend Linting
         uses: actions/setup-python@v5
-        with:
-          python-version: '3.11' # Using Python 3.11 for CI as a stable recent version.
-                                 # User is on 3.13 locally, this should be compatible for linting.
+        with: # Ensure this 'with:' is at the correct level
+          python-version: '3.11' # This line must be indented correctly under 'with:'
 
       - name: Install Backend Dev Dependencies & Lint
         working-directory: ./backend
