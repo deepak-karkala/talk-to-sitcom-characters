@@ -32,7 +32,7 @@ describe('ChatArea', () => {
 
   it('shows loading state', () => {
     render(<ChatArea messages={mockMessages} isLoading={true} />)
-    expect(screen.getByText(/chandler is thinking/i)).toBeInTheDocument()
+    expect(screen.getByText(/chandler is typing.../i)).toBeInTheDocument()
   })
 
   it('shows error state', () => {

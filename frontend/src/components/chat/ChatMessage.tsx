@@ -22,8 +22,8 @@ const ChatMessage: React.FC<{ message: Message }> = ({ message }) => {
           p-3 rounded-lg break-words
           max-w-2xl md:max-w-3xl lg:max-w-4xl // Significantly increased max-width
           ${isUser 
-            ? 'bg-blue-500 text-white' 
-            : 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-100'
+            ? 'bg-blue-500 text-white message-bubble-user' 
+            : 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-100 message-bubble-character'
           }
         `}
       >

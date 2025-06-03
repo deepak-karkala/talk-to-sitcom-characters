@@ -37,8 +37,8 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading, error }) => {
             <ChatMessage key={message.id} message={message} />
           ))}
           {isLoading && (
-            <div className="flex justify-center items-center py-2">
-              <p className="text-slate-500 dark:text-slate-400"> Chandler is thinking... </p>
+            <div data-testid="typing-indicator" className="flex justify-center items-center py-2">
+              <p className="text-slate-500 dark:text-slate-400"> Chandler is typing... </p>
             </div>
           )}
           {error && (
