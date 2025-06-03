@@ -9,24 +9,33 @@ export interface Message {
   avatarUrl?: string;     // Optional: for character's avatar
 }
 
-interface ChatMessageProps {
-  message: Message;
-}
-
-const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
+const ChatMessage: React.FC<{ message: Message }> = ({ message }) => {
   const isUser = message.sender === 'user';
 
   return (
-    <div className={`flex mb-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
+    <div 
+      data-testid="message-container"
+      className={`flex mb-3 ${isUser ? 'justify-end' : 'justify-start'}`}
+    >
       <div
-            className={`p-3 rounded-lg break-words
-                        max-w-2xl md:max-w-3xl lg:max-w-4xl // Significantly increased max-width
-                    ${isUser ? 'bg-blue-500 text-white' : 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-100'}`}
+        className={`
+          p-3 rounded-lg break-words
+          max-w-2xl md:max-w-3xl lg:max-w-4xl // Significantly increased max-width
+          ${isUser 
+            ? 'bg-blue-500 text-white' 
+            : 'bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-100'
+          }
+        `}
       >
-        {!isUser && message.characterName && (
-          <p className="text-xs font-semibold mb-1">{message.characterName}</p>
+        {message.characterName && (
+          <p 
+            data-testid="character-name"
+            className="text-xs font-semibold mb-1"
+          >
+            {message.characterName}
+          </p>
         )}
-        <p>{message.text}</p>
+        <p className="whitespace-pre-wrap">{message.text}</p>
       </div>
     </div>
   );

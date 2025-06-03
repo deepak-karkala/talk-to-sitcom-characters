@@ -5,7 +5,7 @@ import Image from 'next/image';
 interface Character { id: string; name: string; avatarUrl: string; }
 const characters: Character[] = [{ id: 'chandler', name: 'Chandler Bing', avatarUrl: '/characters/chandler/avatar.png' }];
 
-const CharacterSelector = () => {
+const CharacterSelector: React.FC = () => {
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>('chandler');
   return (
     // Applied card styles. Removed temporary border.
@@ -16,11 +16,24 @@ const CharacterSelector = () => {
         {characters.map((char) => (
           <div
             key={char.id}
-            className={`p-1 rounded-lg cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-105 flex flex-col items-center justify-center
-                        ${selectedCharacterId === char.id ? 'ring-2 ring-blue-500' : 'opacity-70 hover:opacity-100'}`}
-            onClick={() => setSelectedCharacterId(char.id)} role="button" tabIndex={0} aria-pressed={selectedCharacterId === char.id} aria-label={`Select ${char.name}`}
+            className={`
+              p-1 rounded-lg cursor-pointer transition-all duration-200 ease-in-out transform
+              ${selectedCharacterId === char.id ? 'ring-2 ring-blue-500' : 'opacity-70 hover:opacity-100'}
+            `}
+            onClick={() => setSelectedCharacterId(char.id)}
+            role="button"
+            tabIndex={0}
+            aria-pressed={selectedCharacterId === char.id}
+            aria-label={`Select ${char.name}`}
           >
-            <Image src={char.avatarUrl} alt={char.name} width={60} height={60} className="rounded-full" priority />
+            <Image
+              src={char.avatarUrl}
+              alt={char.name}
+              width={60}
+              height={60}
+              className="rounded-full"
+              loading="eager"
+            />
             {/* Text color for name against card background */}
             <p className="text-center mt-1 text-xs text-slate-600 dark:text-slate-300">{char.name}</p>
           </div>

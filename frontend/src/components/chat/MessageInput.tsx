@@ -15,29 +15,80 @@ const PaperAirplaneIconSvg = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 PaperAirplaneIconSvg.displayName = 'PaperAirplaneIcon';
-interface MessageInputProps { input: string; handleInputChange: any; handleSubmit: any; }
 
-const MessageInput: React.FC<MessageInputProps> = ({ input, handleInputChange, handleSubmit }) => {
-  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => { handleInputChange(event); event.target.style.height = 'auto'; event.target.style.height = `${event.target.scrollHeight}px`; };
-  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => { handleSubmit(event); const textarea = document.getElementById('message-input-textarea') as HTMLTextAreaElement | null; if (textarea) { setTimeout(() => { if (textarea.value === '') textarea.style.height = 'auto'; }, 0); } };
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); const form = event.currentTarget.closest('form'); if (form) { const submitEvent = new Event('submit', { bubbles: true, cancelable: true }); form.dispatchEvent(submitEvent); } } };
+interface MessageInputProps {
+  input: string;
+  handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+const MessageInput: React.FC<MessageInputProps> = ({
+  input,
+  handleInputChange,
+  handleSubmit
+}) => {
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+
+  // Auto-resize textarea
+  React.useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = '0px';
+      const scrollHeight = textareaRef.current.scrollHeight;
+      textareaRef.current.style.height = scrollHeight + 'px';
+    }
+  }, [input]);
+
+  // Handle keyboard events
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const form = e.currentTarget.closest('form');
+      if (form && input.trim()) {
+        const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+        form.dispatchEvent(submitEvent);
+      }
+    }
+  };
 
   return (
     <form
-      onSubmit={onFormSubmit}
-      // Applied card styles for input bar. Removed temporary border.
+      data-testid="message-form"
+      onSubmit={handleSubmit}
       className="bg-white dark:bg-slate-800 p-3 md:p-4 mt-auto shadow-soft-lift-up rounded-t-lg border-t border-slate-200 dark:border-slate-700"
     >
       <div className="flex items-end space-x-2 md:space-x-3">
-        {/* Icon color against card background */}
-        <button type="button" className="p-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" aria-label="Upload image (disabled)" disabled > <PaperclipIconSvg className="w-5 h-5 md:w-6 md:h-6" /> </button>
-        <textarea id="message-input-textarea" value={input} onChange={handleTextareaChange} onKeyDown={handleKeyDown} placeholder="Type your message..."
-          className="flex-grow p-2.5 text-sm md:text-base border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none
-                     bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white dark:placeholder-slate-400"
-          rows={1} style={{ overflowY: 'hidden' }} />
-        <button type="submit" disabled={!input.trim()} className="p-2.5 text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50" aria-label="Send message" > <PaperAirplaneIconSvg className="w-5 h-5 md:w-6 md:h-6" /> </button>
+        <button
+          type="button"
+          aria-label="Upload image (disabled)"
+          disabled
+          className="p-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        >
+          <PaperclipIconSvg className="w-5 h-5 md:w-6 md:h-6" />
+        </button>
+
+        <textarea
+          ref={textareaRef}
+          id="message-input-textarea"
+          value={input}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Type your message..."
+          rows={1}
+          className="flex-grow p-2.5 text-sm md:text-base border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white dark:placeholder-slate-400"
+          style={{ overflowY: 'hidden' }}
+        />
+
+        <button
+          type="submit"
+          aria-label="Send message"
+          disabled={!input.trim()}
+          className="p-2.5 text-white bg-blue-600 hover:bg-blue-700 rounded-lg disabled:opacity-50"
+        >
+          <PaperAirplaneIconSvg className="w-5 h-5 md:w-6 md:h-6" />
+        </button>
       </div>
     </form>
   );
 };
+
 export default MessageInput;

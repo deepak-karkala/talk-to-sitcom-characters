@@ -1,33 +1,55 @@
 // frontend/src/components/chat/ChatArea.tsx
 "use client";
-import React, { useEffect, useRef } from 'react';
-import ChatMessageComponent, { Message as ChatMessageInterface } from './ChatMessage';
-import { Message as VercelAIMessage } from 'ai';
-interface ChatAreaProps { messages: VercelAIMessage[]; }
+import React from 'react';
+import ChatMessage, { Message } from './ChatMessage';
+// import { Message as VercelAIMessage } from 'ai/react'; // Assuming this is the type for Vercel AI SDK messages
 
-const ChatArea: React.FC<ChatAreaProps> = ({ messages }) => {
-  const scrollableContainerRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (scrollableContainerRef.current) { scrollableContainerRef.current.scrollTop = scrollableContainerRef.current.scrollHeight; }
+interface ChatAreaProps {
+  messages: Message[];
+  isLoading?: boolean;
+  error?: string | null;
+}
+
+const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading, error }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  // Scroll to bottom when messages change
+  React.useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
   }, [messages]);
 
   return (
     <div
-      ref={scrollableContainerRef}
+      ref={containerRef}
       // Applied card styles. Removed temporary border.
       className="flex-grow bg-white dark:bg-slate-800 shadow-lg rounded-lg p-4 my-0 overflow-y-auto"
     >
-      {messages.length === 0 && (
+      {messages.length === 0 ? (
         <div className="flex justify-center items-center h-full">
           {/* Text color for placeholder against card background */}
           <p className="text-slate-500 dark:text-slate-400"> No messages yet. Say hi to Chandler! </p>
         </div>
+      ) : (
+        <div className="space-y-4">
+          {messages.map((message) => (
+            <ChatMessage key={message.id} message={message} />
+          ))}
+          {isLoading && (
+            <div className="flex justify-center items-center py-2">
+              <p className="text-slate-500 dark:text-slate-400"> Chandler is thinking... </p>
+            </div>
+          )}
+          {error && (
+            <div className="flex justify-center items-center py-2">
+              <p className="text-red-500 dark:text-red-400">{error}</p>
+            </div>
+          )}
+        </div>
       )}
-      {messages.map((msg) => {
-        const adaptedMessage: ChatMessageInterface = { id: msg.id, text: msg.content, sender: msg.role === 'user' ? 'user' : 'character', characterName: msg.role !== 'user' ? 'Chandler' : undefined, };
-        return <ChatMessageComponent key={msg.id} message={adaptedMessage} />;
-      })}
     </div>
   );
 };
+
 export default ChatArea;
