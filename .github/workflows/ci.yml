@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js for Frontend Linting
         uses: actions/setup-node@v4
         with:
-              node-version: '20'
+          node-version: '20'
           cache: 'npm'
               # Changed cache-dependency-path to a glob pattern
               cache-dependency-path: '**/package-lock.json'
