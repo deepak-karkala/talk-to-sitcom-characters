@@ -5,7 +5,7 @@ from dotenv import load_dotenv # New import
 # Load environment variables from .env file as early as possible
 # This ensures os.environ is populated before other modules (like Langchain)
 # are imported and try to read from os.environ at their import time.
-load_dotenv() 
+load_dotenv()
 
 # Now proceed with other imports and setup
 from fastapi import FastAPI
@@ -15,7 +15,7 @@ from app.core.logging_config import setup_logging
 from app.core.config import settings # settings will now also see the pre-loaded env vars
 
 # Setup logging (uses settings, so after load_dotenv and settings import)
-setup_logging() 
+setup_logging()
 logger = logging.getLogger(__name__)
 
 # Log LangSmith configuration (excluding API key) for verification
@@ -66,5 +66,5 @@ async def read_root():
 
 logger.info("FastAPI application configured and ready.")
 # Placeholder for core/config.py content (will be created/used more in next steps)
-# from .core.config import settings 
+# from .core.config import settings
 # print(f"Settings loaded: {settings.APP_NAME}") # Example of using settings

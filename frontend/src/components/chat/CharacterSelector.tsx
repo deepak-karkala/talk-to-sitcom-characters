@@ -1,5 +1,5 @@
 // frontend/src/components/chat/CharacterSelector.tsx
-"use client"; 
+"use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
 interface Character { id: string; name: string; avatarUrl: string; }
@@ -9,7 +9,7 @@ const CharacterSelector = () => {
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>('chandler');
   return (
     // Applied card styles. Removed temporary border.
-    <div className="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-3 my-3"> 
+    <div className="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-3 my-3">
       {/* Text color for title against card background */}
       <h2 className="text-lg font-semibold mb-2 text-center text-slate-700 dark:text-slate-200">Select a Character</h2>
       <div className="flex justify-center space-x-3">

@@ -29,7 +29,7 @@ body {
 /*
 body.theme-chandler {
   background-image: url('/characters/chandler/background.svg') !important;
-  background-color: lightpink !important; 
+  background-color: lightpink !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
@@ -40,7 +40,7 @@ body.theme-chandler {
 /* Ensure content is legible over the background, perhaps by adding a semi-transparent overlay to main content areas if needed */
 /* For example, if the main chat components had their own background:
 .chat-content-area {
-    background-color: rgba(255, 255, 255, 0.9); 
+    background-color: rgba(255, 255, 255, 0.9);
     dark:background-color: rgba(30, 41, 59, 0.9); // Example for dark mode
 }
 */
