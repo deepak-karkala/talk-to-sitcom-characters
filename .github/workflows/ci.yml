@@ -25,13 +25,16 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          # Reverted to explicit path, assuming package-lock.json is at frontend/package-lock.json
+          cache-dependency-path: 'frontend/package-lock.json'
 
       - name: Install Frontend Dependencies & Lint
         working-directory: ./frontend
         run: |
+          echo "Listing files in working directory (./frontend):"
+          ls -la # List files to verify package-lock.json presence
           npm ci
-          npm run lint # Assumes 'lint' script is "next lint" or similar
+          npm run lint
 
       - name: Setup Python for Backend Linting
         uses: actions/setup-python@v5
