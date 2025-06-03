@@ -6,6 +6,7 @@ import CharacterSelector from '../CharacterSelector'
 import ChatArea from '../ChatArea'
 import MessageInput from '../MessageInput'
 import { useChat, UseChatReturn } from '@/hooks/useChat'
+import { Message as VercelAIMessage } from 'ai'
 import { Message as CustomMessage } from '../ChatMessage'
 
 // Mock the useChat hook
@@ -38,6 +39,9 @@ const TestChatComponent: React.FC<UseChatReturn> = (props) => {
         input={props.input}
         handleInputChange={props.handleInputChange}
         handleSubmit={props.handleSubmit}
+        handleFileChange={jest.fn()}
+        imagePreviewUrl={null}
+        onRemoveImage={jest.fn()}
       />
     </div>
   );
@@ -103,16 +107,22 @@ describe('Chat Flow Integration', () => {
   })
 
   it('handles loading states correctly', () => {
+    // Mock messages should be in the CustomMessage format, as expected by ChatArea via the mock hook
+    const mockInitialUserMessagesAsCustom: CustomMessage[] = [
+      { id: '1', text: 'Hello', sender: 'user' },
+    ];
+
     act(() => {
-      currentMockState = setupMockUseChat({ 
-        ...currentMockState,
+      currentMockState = setupMockUseChat({
+        messages: mockInitialUserMessagesAsCustom, // Use CustomMessage[] for the mock
         isLoading: true,
-        messages: [{ id: '1', text: 'Hello', sender: 'user' } as CustomMessage]
+        input: '',
       });
     });
+
     render(<TestChatComponent {...currentMockState} />); 
 
-    expect(screen.getByText(/chandler is thinking.../i)).toBeInTheDocument();
+    expect(screen.getByText(/chandler is typing.../i)).toBeInTheDocument();
     const sendButton = screen.getByRole('button', { name: /send message/i });
     expect(sendButton).toBeDisabled();
   })
