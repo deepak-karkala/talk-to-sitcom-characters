@@ -1,6 +1,7 @@
 fastapi
 uvicorn[standard]
 langchain
+langchain-community
 google-generativeai
 python-dotenv
 langsmith

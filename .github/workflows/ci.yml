@@ -25,21 +25,19 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          # Reverted to explicit path, assuming package-lock.json is at frontend/package-lock.json
-          cache-dependency-path: 'frontend/package-lock.json'
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install Frontend Dependencies & Lint
         working-directory: ./frontend
         run: |
-          echo "Listing files in working directory (./frontend):"
-          ls -la # List files to verify package-lock.json presence
           npm ci
-          npm run lint
+          npm run lint # Assumes 'lint' script is "next lint" or similar
 
       - name: Setup Python for Backend Linting
         uses: actions/setup-python@v5
-        with: # Ensure this 'with:' is at the correct level
-          python-version: '3.11' # This line must be indented correctly under 'with:'
+        with:
+          python-version: '3.11' # Using Python 3.11 for CI as a stable recent version.
+                                 # User is on 3.13 locally, this should be compatible for linting.
 
       - name: Install Backend Dev Dependencies & Lint
         working-directory: ./backend
@@ -47,3 +45,73 @@ jobs:
           pip install -r requirements-dev.txt # Contains flake8, black
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics # Basic flake8 check
           black . --check # Check formatting with black
+
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+     
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+     
+      - name: Install Frontend Dependencies & Run Tests
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm test
+
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+     
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+     
+      - name: Install Backend Dependencies & Run Tests
+        working-directory: ./backend
+        run: |
+          pip install -r requirements.txt -r requirements-dev.txt
+          pytest tests/unit tests/integration --cov=app --cov-report=xml
+
+  e2e-tests:
+    name: End-to-End Tests (Playwright)
+    runs-on: ubuntu-latest
+    needs: [frontend-tests, backend-tests]
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python for Playwright
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Playwright & Dependencies
+        run: |
+          pip install -r backend/requirements.txt -r backend/requirements-dev.txt
+          playwright install --with-deps chromium
+
+      - name: Run Playwright Tests
+        working-directory: ./backend
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ secrets.VERCEL_PREVIEW_URL || 'http://localhost:3000' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+          LANGCHAIN_PROJECT: "chatterbox-e2e-tests"
+          LANGCHAIN_TRACING_V2: "true"
+        run: |
+          pytest tests/e2e
