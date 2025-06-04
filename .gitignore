@@ -147,3 +147,4 @@ Doxyfile
 
 # VS Code files
 .vscode/
+.vercel

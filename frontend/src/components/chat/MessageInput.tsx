@@ -78,7 +78,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
   const isSubmitDisabled = !input.trim() && !imagePreviewUrl;
 
   return (
-    <div className="bg-white dark:bg-slate-800 p-3 md:p-4 mt-auto shadow-soft-lift-up rounded-t-lg border-t border-slate-200 dark:border-slate-700">
+    <div className="">
       {imagePreviewUrl && (
         <div className="mb-2 relative group w-24 h-24 border border-slate-300 dark:border-slate-600 rounded-md overflow-hidden">
           <img 
@@ -115,7 +115,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
             type="button"
             onClick={triggerFileInput}
             aria-label="Upload image"
-            className="p-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            className="p-2 text-slate-500 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >
             <PaperclipIconSvg className="w-5 h-5 md:w-6 md:h-6" />
           </button>
@@ -128,7 +128,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
             onKeyDown={handleKeyDown}
             placeholder="Type your message..."
             rows={1}
-            className="flex-grow p-2.5 text-sm md:text-base border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-white dark:placeholder-slate-400"
+            className="flex-grow p-2.5 text-sm md:text-base border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 resize-none bg-slate-50 dark:bg-neutral-700 text-slate-900 dark:text-neutral-100 dark:placeholder-neutral-400"
             style={{ overflowY: 'hidden' }}
           />
 

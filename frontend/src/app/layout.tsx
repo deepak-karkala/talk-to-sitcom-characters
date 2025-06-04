@@ -1,16 +1,23 @@
 // frontend/src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
-export const metadata: Metadata = { title: "Chatterbox", description: "Chat with your favorite characters" };
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+export const metadata: Metadata = {
+  title: "Talk to TV Show/Movie Characters",
+  description: "Chat with AI versions of your favorite characters.",
+};
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       {/* Restored intended page background classes */}
-      <body className={`${inter.className} bg-slate-100 dark:bg-slate-900`}>
+      <body className={`${poppins.className} bg-slate-100 dark:bg-slate-900`}>
         {children}
       </body>
     </html>

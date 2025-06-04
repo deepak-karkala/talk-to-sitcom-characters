@@ -6,7 +6,7 @@ import CharacterSelector from '../CharacterSelector'
 import ChatArea from '../ChatArea'
 import MessageInput from '../MessageInput'
 import { useChat, UseChatReturn } from '@/hooks/useChat'
-import { Message as VercelAIMessage } from 'ai'
+//import { Message as VercelAIMessage } from 'ai'
 import { Message as CustomMessage } from '../ChatMessage'
 
 // Mock the useChat hook

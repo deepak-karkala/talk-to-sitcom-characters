@@ -40,7 +40,7 @@ export default function ChatPage() {
 
   // Effect for managing imagePreviewUrl lifecycle
   useEffect(() => {
-    let currentUrl = imagePreviewUrl;
+    const currentUrl = imagePreviewUrl;
     return () => {
       if (currentUrl) {
         URL.revokeObjectURL(currentUrl);
@@ -133,25 +133,26 @@ export default function ChatPage() {
       text: msg.content,
       sender: msg.role === 'user' ? 'user' : 'character',
       characterName: msg.role === 'assistant' ? 'Chandler' : undefined,
+      avatarUrl: msg.role === 'assistant' ? '/characters/chandler/avatar.png' : undefined,
     }));
   }, [vercelMessages]);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-slate-100 dark:bg-neutral-900">
       <Header />
-      <CharacterSelector />
-      <main className="flex-grow container mx-auto px-4 flex flex-col overflow-hidden">
+      <main className="flex-grow flex flex-col overflow-y-auto p-4">
+        <CharacterSelector />
         <ChatArea messages={adaptedMessages} isLoading={isLoading} error={null} />
       </main>
-      <div className="sticky bottom-0 left-0 right-0 z-10 bg-transparent">
-        <div className="container mx-auto px-0 md:px-4">
+      <div className="sticky bottom-0 left-0 right-0 z-10 bg-transparent pt-2 md:pt-4 pb-6 md:pb-8">
+        <div className="container mx-auto px-2 md:px-4">
             <MessageInput
               input={input}
               handleInputChange={handleInputChange}
               handleSubmit={guardedHandleSubmit}
               handleFileChange={handleFileChange}
-              imagePreviewUrl={imagePreviewUrl} // Pass new state
-              onRemoveImage={handleRemoveImage}   // Pass new handler
+              imagePreviewUrl={imagePreviewUrl}
+              onRemoveImage={handleRemoveImage}
             />
         </div>
       </div>
