@@ -23,22 +23,21 @@ const ChatArea: React.FC<ChatAreaProps> = ({ messages, isLoading, error }) => {
   return (
     <div
       ref={containerRef}
-      // Applied card styles. Removed temporary border.
-      className="flex-grow bg-white dark:bg-slate-800 shadow-lg rounded-lg p-4 my-0 overflow-y-auto"
+      // Removed brightness filter and reverted placeholder text styling
+      className="flex-grow overflow-y-auto mb-4 bg-[url('/characters/chandler/background.png')] bg-cover bg-center p-4 rounded-lg"
     >
       {messages.length === 0 ? (
         <div className="flex justify-center items-center h-full">
-          {/* Text color for placeholder against card background */}
-          <p className="text-slate-500 dark:text-slate-400"> No messages yet. Say hi to Chandler! </p>
+          <p className="text-slate-500 dark:text-neutral-400"> No messages yet. Say hi to Chandler! </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 px-12">
           {messages.map((message) => (
             <ChatMessage key={message.id} message={message} />
           ))}
           {isLoading && (
             <div data-testid="typing-indicator" className="flex justify-center items-center py-2">
-              <p className="text-slate-500 dark:text-slate-400"> Chandler is typing... </p>
+              <p className="text-slate-500 dark:text-neutral-400"> Chandler is typing... </p>
             </div>
           )}
           {error && (
