@@ -29,8 +29,13 @@ jest.mock('next/router', () => ({
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { priority, loading, ...rest } = props;
+    // next/image priority prop translates to loading="eager" on the img tag
+    // if loading is also passed, it takes precedence.
+    const determinedLoading = loading || (priority ? "eager" : undefined);
     // eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element
-    return <img {...props} />
+    return <img {...rest} loading={determinedLoading} />;
   }
 }))
 

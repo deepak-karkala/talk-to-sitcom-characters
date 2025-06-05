@@ -41,7 +41,7 @@ describe('ChatMessage', () => {
     
     // Check if it has the character message styling
     const messageContainer = screen.getByText(characterMessage.text).closest('div')
-    expect(messageContainer).toHaveClass('bg-gray-300', 'dark:bg-gray-600')
+    expect(messageContainer).toHaveClass('bg-gray-300', 'dark:bg-neutral-700')
   })
 
   it('handles messages without character name', () => {
@@ -121,6 +121,6 @@ describe('ChatMessage', () => {
   it('applies responsive width classes correctly', () => {
     render(<ChatMessage message={userMessage} />)
     const messageContainer = screen.getByText(userMessage.text).closest('div')
-    expect(messageContainer).toHaveClass('max-w-2xl', 'md:max-w-3xl', 'lg:max-w-4xl')
+    expect(messageContainer).toHaveClass('max-w-xs', 'sm:max-w-md', 'md:max-w-lg', 'lg:max-w-xl', 'xl:max-w-2xl')
   })
 }) 
