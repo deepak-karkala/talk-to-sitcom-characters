@@ -60,7 +60,7 @@ jobs:
 
   e2e-tests:
     name: End-to-End Tests (Playwright)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [frontend-tests, backend-tests]
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
@@ -75,7 +75,6 @@ jobs:
       - name: Install Playwright & Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libasound2t64 # Explicitly install the likely replacement
           pip install -r backend/requirements.txt -r backend/requirements-dev.txt
           playwright install --with-deps chromium
 
