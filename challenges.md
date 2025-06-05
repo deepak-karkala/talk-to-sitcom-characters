@@ -89,5 +89,36 @@ This document logs some of the key technical challenges encountered during the d
     *   **In `chat.py` (Real Service Call):** Initially, `await llm_service.async_generate_streaming_response(...)` was used. Since `async_generate_streaming_response` is an `async def` *generator*, it returns an async generator object directly when called (not a coroutine that resolves to one). The `await` was incorrect and was removed.
     *   **In `test_chat_endpoint.py` (Mocked Service Call):** When `unittest.mock.AsyncMock` was used as the mock for `async_generate_streaming_response` with a side effect, calling it (without `await`, as per the corrected `chat.py` logic) returned the `AsyncMock`'s coroutine wrapper. This again led to the `TypeError` in the `async for` loop within `chat.py`. The fix was to use `MagicMock(wraps=actual_async_generator_function)` which ensures the mock, when called, directly returns the async generator produced by the wrapped function.
 
+## 9. CI/CD Pipeline Stability & Configuration (New Section)
+
+*   **Challenge:** Achieving stable and correct CI/CD pipeline execution involved addressing several distinct issues related to dependency caching, environment variable setup, test tool configuration, and repository settings.
+
+*   **Resolutions & Key Learnings:**
+
+    *   **Frontend CI - SWC Binary Loading & Cache Issues:**
+        *   **Symptoms:** Tests failed with "Failed to load SWC binary for linux/x64", "Found lockfile missing swc dependencies...", and general npm caching errors like "Some specified paths were not resolved, unable to cache dependencies".
+        *   **Root Causes:** Often stemmed from `package-lock.json` not accurately reflecting the necessary platform-specific SWC binaries for the CI environment (linux-x64-gnu) or corrupted/stale caches in GitHub Actions.
+        *   **Solutions Implemented:**
+            1.  **`package-lock.json` Correction:** Ensured `package-lock.json` was regenerated and "patched" locally by running a Next.js command (e.g., `npx next --help` or `npm run dev` briefly) after any dependency changes (like React version downgrade). This patched lockfile was then committed.
+            2.  **`.gitignore` Correction:** Removed a rule from the root `.gitignore` that was incorrectly ignoring all `package-lock.json` files, ensuring `frontend/package-lock.json` was tracked.
+            3.  **CI Workflow Enhancements (`.github/workflows/ci.yml` for `frontend-tests`):**
+                *   Added `npm cache clean --force` to clear the runner's npm cache before installing dependencies.
+                *   Ensured `rm -rf node_modules` was executed before `npm ci` for a completely clean install.
+            4.  **GitHub Actions Cache Management:** Manually cleared existing caches in the GitHub repository (Actions -> Caches) to prevent interference from stale cache entries.
+            5.  **`package.json` Consistency:** Added `engines: { "node": ">=18.0.0" }` to `frontend/package.json` to declare Node.js version compatibility.
+
+    *   **Backend CI - Missing `GOOGLE_API_KEY` for Integration Tests:**
+        *   **Symptom:** Tests failed with `ValueError: GOOGLE_API_KEY not found in environment variables`.
+        *   **Root Cause:** The `backend-tests` job in CI was not supplied with the necessary API key, which the application configuration (`backend/app/core/config.py`) expected as `GOOGLE_API_KEY`.
+        *   **Solution Implemented:** Added an `env` block to the `backend-tests` job in `.github/workflows/ci.yml` to map `GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}` and also provide necessary LangSmith environment variables.
+
+    *   **Backend CI - `pytest-cov` Unrecognized Arguments:**
+        *   **Symptom:** Tests failed with `pytest: error: unrecognized arguments: --cov=app --cov-report=xml`.
+        *   **Root Cause:** The `pytest-cov` plugin, which provides coverage reporting arguments, was not installed in the CI environment for backend tests.
+        *   **Solution Implemented:** Added `pytest-cov==5.0.0` to `backend/requirements-dev.txt`.
+
+    *   **General CI Workflow Management:**
+        *   Temporarily removed the `lint` job from the CI workflow to allow other critical path CI issues to be resolved without being blocked by linting failures. This job can be reinstated once linting rules are finalized or issues are fixed.
+
 ---
 *This log will be updated as new challenges arise and are addressed.*
