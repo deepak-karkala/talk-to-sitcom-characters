@@ -30,6 +30,7 @@ jobs:
       - name: Install Frontend Dependencies & Run Tests
         working-directory: ./frontend
         run: |
+          npm cache clean --force
           rm -rf node_modules
           npm ci
           npm test
@@ -37,6 +38,11 @@ jobs:
   backend-tests:
     name: Backend Tests
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      LANGCHAIN_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+      LANGCHAIN_TRACING_V2: "true"
+      LANGCHAIN_PROJECT: "chatterbox-backend-tests"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
