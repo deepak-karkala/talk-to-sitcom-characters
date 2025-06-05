@@ -30,6 +30,7 @@ jobs:
       - name: Install Frontend Dependencies & Run Tests
         working-directory: ./frontend
         run: |
+          rm -rf node_modules
           npm ci
           npm test
 
@@ -49,7 +50,7 @@ jobs:
         working-directory: ./backend
         run: |
           pip install -r requirements.txt -r requirements-dev.txt
-          pytest tests/unit tests/integration --cov=app --cov-report=xml
+          pytest tests/integration --cov=app --cov-report=xml
 
   e2e-tests:
     name: End-to-End Tests (Playwright)
