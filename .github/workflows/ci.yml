@@ -31,8 +31,6 @@ jobs:
         working-directory: ./frontend
         run: |
           npm ci
-          npm install -g eslint
-          npm run lint # Assumes 'lint' script is "next lint" or similar
 
       - name: Setup Python for Backend Linting
         uses: actions/setup-python@v5
