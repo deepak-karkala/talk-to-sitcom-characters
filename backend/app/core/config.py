@@ -1,5 +1,6 @@
 # backend/app/core/config.py
 from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 from typing import Optional
 
 class Settings(BaseSettings):
@@ -17,10 +18,12 @@ class Settings(BaseSettings):
     # LLM Service Provider: "GEMINI" or "LLAMA" (for future use)
     LLM_SERVICE_PROVIDER: str = "GEMINI"
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = 'utf-8'
-        extra = 'ignore' # Ignore extra fields from .env
+    # Pydantic V2 style configuration using model_config
+    model_config = ConfigDict(
+        env_file=".env",
+        env_file_encoding='utf-8',
+        extra='ignore'  # Ignore extra fields from .env
+    )
 
 settings = Settings()
 

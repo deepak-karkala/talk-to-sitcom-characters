@@ -5,10 +5,13 @@ from playwright.sync_api import Page, expect
 
 
 BASE_URL = os.getenv("PLAYWRIGHT_BASE_URL", "http://localhost:3000")
-# Define absolute path for traces
-TRACE_DIR_PART1 = "/Users/deepak/Documents/work/projects/"
-TRACE_DIR_PART2 = "talk-to-sitcom-characters/backend/tests/e2e/traces/"
-TRACE_DIR_ABSOLUTE = os.path.join(TRACE_DIR_PART1, TRACE_DIR_PART2)
+
+# Define relative path for traces based on the current file's location
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+TRACE_OUTPUT_DIR = os.path.join(CURRENT_DIR, "traces")
+
+# Ensure the trace directory exists
+os.makedirs(TRACE_OUTPUT_DIR, exist_ok=True)
 
 
 def test_chandler_sends_greeting(page: Page):
@@ -31,7 +34,7 @@ def test_chandler_sends_greeting(page: Page):
 def test_send_message_and_receive_reply(page: Page):
     """Test sending a message and receiving a reply from Chandler."""
     trace_path = os.path.join(
-        TRACE_DIR_ABSOLUTE, "send_message_trace.zip"
+        TRACE_OUTPUT_DIR, "send_message_trace.zip"
     )
     page.context.tracing.start(
         screenshots=True, snapshots=True, sources=True
@@ -77,7 +80,7 @@ def test_send_message_and_receive_reply(page: Page):
 def test_image_upload_and_response(page: Page):
     """Test uploading an image and receiving a response about it."""
     trace_path = os.path.join(
-        TRACE_DIR_ABSOLUTE, "image_upload_trace.zip"
+        TRACE_OUTPUT_DIR, "image_upload_trace.zip"
     )
     page.context.tracing.start(
         screenshots=True, snapshots=True, sources=True

@@ -147,3 +147,6 @@ Doxyfile
 # VS Code files
 .vscode/
 .vercel
+
+# Backend traces
+backend/tests/e2e/traces/
